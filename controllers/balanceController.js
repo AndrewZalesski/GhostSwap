@@ -1,15 +1,15 @@
-const kaswareClient = require("../utils/kaswareClient");
+// Removed: const kaswareClient = require("../utils/kaswareClient");
 
 exports.getBalances = async (req, res) => {
     try {
-        const accounts = await kaswareClient.getAccounts();
+// Removed: const accounts = await kaswareClient.getAccounts();
         if (accounts.length === 0) {
             return res.status(404).json({ success: false, message: "No accounts connected" });
         }
 
         const address = accounts[0];
-        const kaspaBalance = await kaswareClient.getBalance();
-        const krc20Balances = await kaswareClient.getKRC20Balance();
+// Removed: const kaspaBalance = await kaswareClient.getBalance();
+// Removed: const krc20Balances = await kaswareClient.getKRC20Balance();
 
         const formattedKRC20Balances = krc20Balances.map(token => ({
             ticker: token.tick,
