@@ -25,7 +25,7 @@ const allowedOrigins = ALLOWED_ORIGINS.split(",");
     "https://www.kaspercoin.net/ghostswap",
     "https://kasper-3-0.webflow.io/ghostswap",
     "https://ghostswap-69212846b3d2.herokuapp.com"
-];
+;
 
 app.use(
     cors({
