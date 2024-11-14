@@ -1,3 +1,4 @@
+
 const axios = require('axios');
 const { KASPLEX_API_URL } = require('../config');
 
@@ -7,8 +8,8 @@ exports.getTokenDetails = async (ticker) => {
         const response = await axios.get(`${KASPLEX_API_URL}/krc20/token/${ticker}`);
         return response.data;
     } catch (error) {
-        console.error("Error fetching token details:", error.message);
-        throw new Error("Failed to fetch token details.");
+        console.error(`[KasplexUtil] Error fetching token details for ${ticker}:`, error.message);
+        throw new Error(`Failed to fetch token details for ${ticker}.`);
     }
 };
 
@@ -18,8 +19,8 @@ exports.getTokenHolders = async (ticker) => {
         const response = await axios.get(`${KASPLEX_API_URL}/krc20/token/${ticker}/holders`);
         return response.data;
     } catch (error) {
-        console.error("Error fetching token holders:", error.message);
-        throw new Error("Failed to fetch token holders.");
+        console.error(`[KasplexUtil] Error fetching token holders for ${ticker}:`, error.message);
+        throw new Error(`Failed to fetch token holders for ${ticker}.`);
     }
 };
 
@@ -29,7 +30,18 @@ exports.getTokenStats = async (ticker) => {
         const response = await axios.get(`${KASPLEX_API_URL}/krc20/token/${ticker}/stats`);
         return response.data;
     } catch (error) {
-        console.error("Error fetching token statistics:", error.message);
-        throw new Error("Failed to fetch token statistics.");
+        console.error(`[KasplexUtil] Error fetching token stats for ${ticker}:`, error.message);
+        throw new Error(`Failed to fetch token stats for ${ticker}.`);
+    }
+};
+
+// Placeholder for fetching token market history
+exports.getTokenMarketHistory = async (ticker) => {
+    try {
+        const response = await axios.get(`${KASPLEX_API_URL}/krc20/token/${ticker}/market-history`);
+        return response.data;
+    } catch (error) {
+        console.error(`[KasplexUtil] Error fetching market history for ${ticker}:`, error.message);
+        throw new Error(`Failed to fetch market history for ${ticker}.`);
     }
 };

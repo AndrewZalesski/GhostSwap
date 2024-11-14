@@ -1,4 +1,5 @@
-const kasplexClient = require('../utils/kasplexClient');
+
+const kasplexUtil = require('../utils/kasplexUtil');
 
 // Fetch KRC20 Token Details
 exports.getTokenDetails = async (req, res) => {
@@ -11,7 +12,7 @@ exports.getTokenDetails = async (req, res) => {
         }
 
         // Fetch token details from the Kasplex API
-        const tokenDetails = await kasplexClient.getTokenDetails(ticker);
+        const tokenDetails = await kasplexUtil.getTokenDetails(ticker);
 
         if (!tokenDetails) {
             return res.status(404).json({ success: false, message: "Token details not found." });
@@ -22,7 +23,7 @@ exports.getTokenDetails = async (req, res) => {
             data: tokenDetails,
         });
     } catch (error) {
-        console.error("Error fetching token details:", error.message);
+        console.error(`[KRC20Controller] Error fetching token details for ${ticker}:`, error.message);
         res.status(500).json({ success: false, message: "An error occurred while fetching token details." });
     }
 };
@@ -32,10 +33,10 @@ exports.getHolders = async (req, res) => {
     const { ticker } = req.params;
 
     try {
-        const holders = await kasplexClient.getTokenHolders(ticker);
+        const holders = await kasplexUtil.getTokenHolders(ticker);
 
         if (!holders) {
-            return res.status(404).json({ success: false, message: "No holders found for the token." });
+            return res.status(404).json({ success: false, message: "Holders not found." });
         }
 
         res.json({
@@ -43,28 +44,28 @@ exports.getHolders = async (req, res) => {
             data: holders,
         });
     } catch (error) {
-        console.error("Error fetching token holders:", error.message);
+        console.error(`[KRC20Controller] Error fetching holders for ${ticker}:`, error.message);
         res.status(500).json({ success: false, message: "An error occurred while fetching token holders." });
     }
 };
 
-// Fetch Token Statistics
-exports.getTokenStats = async (req, res) => {
+// Fetch Token Market History
+exports.getMarketHistory = async (req, res) => {
     const { ticker } = req.params;
 
     try {
-        const stats = await kasplexClient.getTokenStats(ticker);
+        const marketHistory = await kasplexUtil.getTokenMarketHistory(ticker);
 
-        if (!stats) {
-            return res.status(404).json({ success: false, message: "No statistics found for the token." });
+        if (!marketHistory) {
+            return res.status(404).json({ success: false, message: "Market history not found." });
         }
 
         res.json({
             success: true,
-            data: stats,
+            data: marketHistory,
         });
     } catch (error) {
-        console.error("Error fetching token statistics:", error.message);
-        res.status(500).json({ success: false, message: "An error occurred while fetching token statistics." });
+        console.error(`[KRC20Controller] Error fetching market history for ${ticker}:`, error.message);
+        res.status(500).json({ success: false, message: "An error occurred while fetching market history." });
     }
 };
