@@ -21,7 +21,6 @@ const fetchAndStoreMarketData = async () => {
 
         if (bulkOps.length > 0) {
             await MarketData.bulkWrite(bulkOps);
-            console.log(`Market data updated: ${new Date().toISOString()}`);
         }
     } catch (error) {
         console.error("Error fetching and storing market data:", error);
