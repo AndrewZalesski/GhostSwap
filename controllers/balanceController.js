@@ -1,24 +1,19 @@
 
-const kaswareClient = require('../utils/kaswareClient');
-
 exports.getBalances = async (req, res) => {
     try {
-        const accounts = await kaswareClient.getAccounts();
-        if (accounts.length === 0) {
-            return res.status(404).json({ success: false, message: "No accounts connected" });
+        const { walletAddress } = req.body;
+        if (!walletAddress) {
+            return res.status(400).json({ success: false, message: 'Wallet address is required' });
         }
 
-        const address = accounts[0];
-        const kaspaBalance = await kaswareClient.getBalance();
-        const krc20Balances = await kaswareClient.getKRC20Balance();
-
+        // Placeholder response: Replace with real logic to fetch balances
         res.json({
             success: true,
-            address,
-            balances: { kaspaBalance, krc20Balances },
+            kaspaBalance: { confirmed: 0, unconfirmed: 0, total: 0 },
+            krc20Balances: [],
         });
-    } catch (error) {
-        console.error("Error fetching balances:", error);
-        res.status(500).json({ success: false, message: "Failed to retrieve balances" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: "Server error" });
     }
 };

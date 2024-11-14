@@ -1,8 +1,6 @@
 require("dotenv").config();
 
 module.exports = {
-    TESTNET_FEE_WALLET: "kaspatest:qrpfg7ygceglm40pkvnhqykd4f6prhj4xhq35f3mgrkau6sfm8chgnzukrxrq",
-    MAINNET_FEE_WALLET: "kaspa:qqclapm8ztmkmv8l0zthzg5cv40uer5jk0dv7fplpxu499eklak4j2crngyth",
     PORT: process.env.PORT || 3000,
     DB_URI: process.env.DB_URI || "mongodb://localhost:27017/ghostswap",
     ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS || "https://kasper-3-0.webflow.io,https://kaspercoin.net,https://ghostswap-69212846b3d2.herokuapp.com/",

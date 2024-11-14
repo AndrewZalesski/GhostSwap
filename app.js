@@ -5,7 +5,6 @@ const rateLimit = require("express-rate-limit");
 const morgan = require("morgan");
 const connectDatabase = require("./database");
 const { ALLOWED_ORIGINS, RATE_LIMIT_WINDOW, RATE_LIMIT_MAX } = require("./config");
-const walletRoutes = require("./routes/walletRoutes");
 const marketplaceRoutes = require("./routes/marketplaceRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 

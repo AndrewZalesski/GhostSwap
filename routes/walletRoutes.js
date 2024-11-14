@@ -1,8 +1,8 @@
+
 // Routes for wallet-related actions
 const express = require('express');
 const router = express.Router();
-const authController = require('../controllers/authController');
 
-router.get('/connect', authController.authenticateWallet);
+// No wallet-specific routes required as all logic is moved to the frontend
 
 module.exports = router;

@@ -1,5 +1,4 @@
-// Removed: const kaswareClient = require("../utils/kaswareClient");
-
+// Removed: 
 exports.connectWallet = async (req, res) => {
     try {
 // Removed: const accounts = await kaswareClient.requestAccounts();

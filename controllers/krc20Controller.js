@@ -6,8 +6,8 @@ exports.getTokenDetails = async (req, res) => {
 
     try {
         // Validate the ticker length
-        if (ticker.length > 6) {
-            return res.status(400).json({ success: false, message: "Ticker must be 6 characters or fewer." });
+        if (!ticker || ticker.length > 6) {
+            return res.status(400).json({ success: false, message: "Invalid ticker provided. Must be 1-6 characters." });
         }
 
         // Fetch token details from the Kasplex API
