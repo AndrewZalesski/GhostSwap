@@ -46,7 +46,6 @@ app.use(morgan("combined"));
 app.use(express.json());
 
 // Routes
-app.use("/wallet", walletRoutes);
 app.use("/marketplace", marketplaceRoutes);
 app.use("/analytics", analyticsRoutes);
 
