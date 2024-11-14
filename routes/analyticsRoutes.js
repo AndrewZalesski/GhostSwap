@@ -1,8 +1,9 @@
-// Routes for analytics APIs
-const express = require('express');
-const router = express.Router();
-const analyticsController = require('../controllers/analyticsController');
 
-router.get('/top-gainers', analyticsController.getTopGainers);
+const express = require("express");
+const router = express.Router();
+const { getMarketHistory } = require("../controllers/marketHistoryController");
+
+// Market History Endpoint
+router.get("/market-history/:ticker", getMarketHistory);
 
 module.exports = router;
