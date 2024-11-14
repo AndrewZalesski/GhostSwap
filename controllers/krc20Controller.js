@@ -49,3 +49,23 @@ exports.getHolders = async (req, res) => {
     }
 };
 
+// Fetch Token Market History
+exports.getMarketHistory = async (req, res) => {
+    const { ticker } = req.params;
+
+    try {
+        const marketHistory = await kasplexUtil.getTokenMarketHistory(ticker);
+
+        if (!marketHistory) {
+            return res.status(404).json({ success: false, message: "Market history not found." });
+        }
+
+        res.json({
+            success: true,
+            data: marketHistory,
+        });
+    } catch (error) {
+        console.error(`[KRC20Controller] Error fetching market history for ${ticker}:`, error.message);
+        res.status(500).json({ success: false, message: "An error occurred while fetching market history." });
+    }
+};
