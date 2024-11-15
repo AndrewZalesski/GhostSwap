@@ -1,19 +1,15 @@
-
 {
   "name": "ghostswap-backend",
   "version": "1.0.0",
   "description": "Backend for GhostSwap",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node app.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mongoose": "^6.8.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.15"
+    "mongoose": "^7.0.0"
   }
 }
