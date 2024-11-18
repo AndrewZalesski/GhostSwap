@@ -6,20 +6,19 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 
-// Initialize Express App
 const app = express();
 
-// Trust the first proxy (Heroku uses a single proxy)
+// Trust the first proxy (useful for Heroku)
 app.set('trust proxy', 1);
 
 // Middleware
 app.use(express.json());
 
-// Allowed Origins
+// Allowed Origins - Update as needed
 const allowedOrigins = [
   'https://kasper-3-0.webflow.io',
   'https://kaspercoin.net',
-  'http://localhost:3000' // Added for local testing
+  'http://localhost:3000' // For local development
 ];
 
 // CORS Configuration
@@ -40,8 +39,8 @@ app.use(cors({
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  standardHeaders: true,
+  legacyHeaders: false,
   message: { error: 'Too many requests, please try again later.' }
 });
 app.use('/api/', apiLimiter);
@@ -52,9 +51,9 @@ mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('MongoDB Connected'))
+.then(() => console.log('✅ MongoDB Connected'))
 .catch(err => {
-  console.error('MongoDB Connection Error:', err);
+  console.error('❌ MongoDB Connection Error:', err);
   process.exit(1); // Exit process with failure
 });
 
@@ -90,7 +89,7 @@ app.post('/api/orders', async (req, res) => {
     const { txJsonString, ticker, amount, uAmt, from, psktData } = req.body;
 
     // Basic validation
-    if (!txJsonString || !ticker || !amount || !uAmt || !from || !psktData) {
+    if (!txJsonString || !ticker || amount === undefined || uAmt === undefined || !from || !psktData) {
       return res.status(400).json({ error: 'All fields are required.' });
     }
 
@@ -110,7 +109,7 @@ app.post('/api/orders', async (req, res) => {
     await order.save();
     res.status(201).json(order);
   } catch (error) {
-    console.error('Error creating order:', error);
+    console.error('❌ Error creating order:', error);
     if (error.code === 11000) { // Duplicate key error
       res.status(400).json({ error: 'Order with this txJsonString already exists.' });
     } else if (error.name === 'ValidationError') {
@@ -143,7 +142,7 @@ app.get('/api/orders', async (req, res) => {
     const orders = await Order.find(query).sort({ createdAt: -1 });
     res.json(orders);
   } catch (error) {
-    console.error('Error fetching orders:', error);
+    console.error('❌ Error fetching orders:', error);
     res.status(500).json({ error: 'Failed to fetch orders.' });
   }
 });
@@ -171,7 +170,7 @@ app.delete('/api/orders/:txJsonString', async (req, res) => {
       res.status(404).json({ error: 'Order not found or already canceled/completed.' });
     }
   } catch (error) {
-    console.error('Error canceling order:', error);
+    console.error('❌ Error canceling order:', error);
     res.status(500).json({ error: 'Failed to cancel order.' });
   }
 });
@@ -200,7 +199,7 @@ app.put('/api/orders/:txJsonString', async (req, res) => {
       res.status(404).json({ error: 'Order not found.' });
     }
   } catch (error) {
-    console.error('Error updating order status:', error);
+    console.error('❌ Error updating order status:', error);
     res.status(500).json({ error: 'Failed to update order status.' });
   }
 });
@@ -212,12 +211,12 @@ app.use((req, res) => {
 
 // Global Error Handler
 app.use((err, req, res, next) => {
-  console.error('Unhandled Error:', err);
+  console.error('❌ Unhandled Error:', err);
   res.status(500).json({ error: 'An unexpected error occurred.' });
 });
 
 // Start the Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
