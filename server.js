@@ -33,8 +33,12 @@ app.use(helmet());
 // Use Morgan for HTTP request logging
 app.use(morgan('combined'));
 
-// CORS Configuration
-const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
+// CORS Configuration - Hard-Coded Allowed Origins
+const allowedOrigins = [
+  'https://kasper-3-0.webflow.io',
+  'https://kaspercoin.net',
+  'http://localhost:3000'
+];
 
 app.use(cors({
   origin: function(origin, callback){
@@ -76,6 +80,9 @@ app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
     // Handle JSON parse errors
     return res.status(400).json({ error: 'Invalid JSON payload.' });
+  }
+  if (err.message.includes('CORS')) {
+    return res.status(403).json({ error: err.message });
   }
   res.status(500).json({ error: 'An unexpected error occurred.' });
 });
