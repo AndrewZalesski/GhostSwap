@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { body, validationResult } = require('express-validator'); // Import express-validator
+const { body, validationResult } = require('express-validator');
 const Order = require('../models/Order');
 
-// GET /api/orders?ticker=XYZ - Fetch orders by ticker
 router.get('/', async (req, res) => {
   const { ticker } = req.query;
   if (!ticker) {
@@ -19,7 +18,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST /api/orders - Create a new order
 router.post('/',
   [
     body('txJsonString').notEmpty().withMessage('txJsonString is required.'),
@@ -61,7 +59,6 @@ router.post('/',
     }
 });
 
-// PUT /api/orders/:id - Update an order's status
 router.put('/:id',
   [
     body('status').isIn(['active', 'completed', 'canceled']).withMessage('Invalid status value.')
@@ -91,7 +88,6 @@ router.put('/:id',
     }
 });
 
-// DELETE /api/orders/:id - Delete an order
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
